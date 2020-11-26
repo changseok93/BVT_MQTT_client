@@ -26,7 +26,7 @@ class mqtt_callback():
 
     def on_message(self, client, userdata, message):
         print('class method device_id : ', self.device_id)
-        if message.topic == "device_operation_vending_web":
+        if message.topic == "device_operation":
             data = json.loads(str(message.payload.decode("utf-8")))
             if data['ret_code'] == "0000":
                 print('data collect success')
@@ -63,7 +63,7 @@ class mqtt_connector(mqtt_callback):
             self.mutexlock = False
             self.client.connect(self.ip, self.port)
             self.client.publish(env_id, json.dumps({"msg_group_type":"cmd","type":"collect_dataset","env_id":str(env_id), "image_type":str(image_type)}), 1)
-            self.client.subscribe('device_operation_vending_web', 0)
+            self.client.subscribe('device_operation', 0)
             self.client.loop_forever()
             self.mutexlock = True
         else:
