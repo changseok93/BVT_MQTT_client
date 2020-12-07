@@ -28,7 +28,7 @@ class mqtt_callback():
         print('class method device_id : ', self.device_id)
         if message.topic == "device_operation":
             data = json.loads(str(message.payload.decode("utf-8")))
-            if data['ret_code'] == "0000":
+            if data['ret_code'] == "0000" and data['env_id'] == str(self.device_id):
                 print('data collect success')
                 self.image_id = data['msg']
             else:
